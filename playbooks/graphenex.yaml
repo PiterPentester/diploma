@@ -1,0 +1,11 @@
+---
+
+- name: GrapheneX
+  connection: paramiko
+  gather_facts: true
+  hosts: all
+  tasks:
+
+    - name: Install grapheneX on workers
+      command: /usr/local/bin/python3.8 -m pip install graphenex
+      become: true

@@ -9,19 +9,19 @@
 
 Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/mnt/host_machine" 
-  # Init & bootstrap MASTER for puppet
+  # Init & bootstrap MASTER for cluster
   config.vm.define :master do |master|
     master.vm.provider :virtualbox do |v|
       v.memory = 2048
       v.cpus = 2
     end
     master.vm.box = "centos/7"
-    master.vm.hostname = "puppet"
+    master.vm.hostname = "master"
     master.vm.network :private_network, ip: "10.0.0.10"
     master.vm.provision :shell, path: "bootstrap-master.sh"
   end
 
-  # Init & bootstrap AGENTS for puppet
+  # Init & bootstrap WORKERS for cluster
   %w{worker1 worker2}.each_with_index do |name, i|
     config.vm.define name do |worker|
       worker.vm.provider :virtualbox do |v|
@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
       worker.vm.box = "centos/7"
       worker.vm.hostname = name
       worker.vm.network :private_network, ip: "10.0.0.#{i + 11}"
-      worker.vm.provision :shell, path: "bootstrap-agent.sh"
+      worker.vm.provision :shell, path: "bootstrap-workers.sh"
     end
   end
 
