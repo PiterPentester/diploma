@@ -16,5 +16,6 @@ Diploma project
  - doc
  - playbooks
  - workplace - vagrant cluster for project (CentOS 7)
+ - modules - hardening modules for centos7
 
 
