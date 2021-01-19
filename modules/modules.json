@@ -215,6 +215,41 @@
             "require_superuser": "True",
             "target_os": "linux"
         },
+        {
+            "name": "Disable_Account_Identifiers_With_Expired_Passwords",
+            "desc": "Inactive identifiers pose a risk to systems and applications because attackers may exploit an inactive identifier and potentially obtain undetected access to the system. Owners of inactive accounts will not notice if unauthorized access to their user account has been obtained. Operating systems need to track periods of inactivity and disable application identifiers after zero days of inactivity.",
+            "command": "sed -ri 's/^INACTIVE=../INACTIVE=0/g' /etc/default/useradd",
+            "require_superuser": "True",
+            "target_os": "linux"
+        },
+        {
+            "name": "Minimum_Password_Length",
+            "desc": "Password length is one factor of several that helps to determine strength and how long it takes to crack a password. Use of more characters in a password helps to exponentially increase the time and/or resources required to compromise the password. ",
+            "command": "sed -ri 's/^#.minlen.=/minlen =/g' /etc/security/pwquality.conf && sed -ri 's/^minlen.=.../minlen = 15/g' /etc/security/pwquality.conf",
+            "require_superuser": "True",
+            "target_os": "linux"
+        },
+        {
+            "name": "Dont_Allow_Reuse_Passwords",
+            "desc": "If the information system or application allows the user to consecutively reuse their password when that password has exceeded its defined lifetime, the end result is a password that is not changed per policy requirements. ",
+            "command": "echo 'password requisite pam_pwhistory.so use_authtok remember=5 retry=3' >> /etc/pam.d/system-auth && echo 'password requisite pam_pwhistory.so use_authtok remember=5 retry=3' >> /etc/pam.d/password-auth",
+            "require_superuser": "True",
+            "target_os": "linux"
+        },
+        {
+            "name": "PASS_MAX_DAYS_For_New_Users",
+            "desc": "Any password, no matter how complex, can eventually be cracked. Therefore, passwords need to be changed periodically. If the operating system does not limit the lifetime of passwords and force users to change their passwords, there is the risk that the operating system passwords could be compromised.",
+            "command": "sed -ri 's/^PASS_MAX_DAYS....../PASS_MAX_DAYS 60/g' /etc/login.defs",
+            "require_superuser": "True",
+            "target_os": "linux"
+        },
+        {
+            "name": "",
+            "desc": "",
+            "command": "",
+            "require_superuser": "True",
+            "target_os": "linux"
+        },
         {},
         {},
     ],
