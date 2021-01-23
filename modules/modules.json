@@ -244,6 +244,34 @@
             "target_os": "linux"
         },
         {
+            "name": "Log_Unsuccessful_Account_Access",
+            "desc": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.",
+            "command": "echo '-w /var/run/faillock -p wa -k logins' > /etc/audit/audit.rules",
+            "require_superuser": "True",
+            "target_os": "linux"
+        },
+        {
+            "name": "Log_Successful_Account_Access",
+            "desc": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.",
+            "command": "echo '-w /var/log/lastlog -p wa -k logins' > /etc/audit/audit.rules",
+            "require_superuser": "True",
+            "target_os": "linux"
+        },
+        {
+            "name": "Log_Passwd_Command_Usage",
+            "desc": "Configure the operating system to generate audit records when successful/unsuccessful attempts to use the 'passwd' command occur.",
+            "command": "echo '-a always,exit -F path=/usr/bin/passwd -F auid>=1000 -F auid!=unset -k privileged-passwd' > /etc/audit/audit.rules",
+            "require_superuser": "True",
+            "target_os": "linux"
+        },
+        {
+            "name": "SSH_Print_LastLog",
+            "desc": "Configure SSH to provide users with feedback on when account accesses last occurred by setting the required configuration options in '/etc/pam.d/sshd' or in the 'sshd_config' file used by the system",
+            "command": "sed -i 's/#PrintLastLog yes/PrintLastLog yes/g' /etc/ssh/sshd_config && sed -i 's/PrintLastLog no/PrintLastLog yes/g' /etc/ssh/sshd_config",
+            "require_superuser": "True",
+            "target_os": "linux"
+        },
+        {
             "name": "",
             "desc": "",
             "command": "",

@@ -9,3 +9,7 @@ Added modules:
         - Minimum_Password_Length
         - Dont_Allow_Reuse_Passwords
         - PASS_MAX_DAYS_For_New_Users
+        - Log_Unsuccessful_Account_Access
+        - Log_Successful_Account_Access
+        - Log_Passwd_Command_Usage
+        - SSH_Print_LastLog
