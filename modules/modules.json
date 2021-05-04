@@ -270,16 +270,7 @@
             "command": "sed -i 's/#PrintLastLog yes/PrintLastLog yes/g' /etc/ssh/sshd_config && sed -i 's/PrintLastLog no/PrintLastLog yes/g' /etc/ssh/sshd_config",
             "require_superuser": "True",
             "target_os": "linux"
-        },
-        {
-            "name": "",
-            "desc": "",
-            "command": "",
-            "require_superuser": "True",
-            "target_os": "linux"
-        },
-        {},
-        {},
+        }
     ],
     "presets": [
         {
@@ -297,5 +288,12 @@
             ],
             "target_os": "linux"
         },
+        {
+            "name": "CentOS7_Hardening",
+            "modules": [
+                "centos/All"
+            ],
+            "target_os": "linux"
+        }
     ]
 }

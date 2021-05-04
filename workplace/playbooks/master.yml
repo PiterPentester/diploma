@@ -1,0 +1,50 @@
+---
+
+- name: Master
+  connection: paramiko
+  #gather_facts: true
+  become: true
+  hosts: all
+  tasks:
+    ## TBD
+    - name: "YUM: install required soft"
+      yum: 
+        name:
+          - yum-utils
+          - epel-release
+          - git
+          - nano
+          - gcc
+          - wget
+        state: present
+        
+    - name: "YUM: install required soft epel-release"
+      yum: 
+        name:
+          - ansible
+          - openssl-devel
+          - libffi-devel
+          - bzip2-devel
+        state: present
+        
+    - name: "WGET: get python3.8"
+      get_url:
+        url: https://www.python.org/ftp/python/3.8.5/Python-3.8.5.tgz
+        dest: /opt/Python-3.8.5.tgz
+        mode: '0644'
+    
+    - name: "UNPACK: extract files from tar"
+      ansible.builtin.unarchive:
+        src: /opt/Python-3.8.5.tgz
+        dest: /opt
+        remote_src: yes
+    
+    - name: "INSTALL: configure python3.8"
+      ansible.builtin.shell:
+        cmd: ./configure --enable-optimizations
+        chdir: /opt/Python-3.8.5/
+        
+    - name: "INSTALL: make install python3.8"
+      ansible.builtin.shell:
+        cmd: make altinstall
+        chdir: /opt/Python-3.8.5/

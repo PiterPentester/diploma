@@ -3,9 +3,25 @@
 - name: GrapheneX
   connection: paramiko
   gather_facts: true
+  become: true
   hosts: all
+  vars:
+    ansible_python_interpreter: /usr/local/bin/python3.8
   tasks:
-
-    - name: Install grapheneX on workers
-      command: /usr/local/bin/python3.8 -m pip install graphenex
-      become: true
+    ## TBD
+    - name: "Dependencies: copy grapheney to modules dir"
+      ansible.builtin.copy:
+        src: /home/vagrant/grapheney
+        dest: /usr/local/lib/python3.8/
+        force: no
+    ##
+    - name: "Dependencies: install requirements"
+      pip:
+        name:
+          - colorama
+          - coloredlogs
+          - terminaltables
+          - pyinquirer
+          - flask
+          - flask-socketio
+          - psutil
