@@ -25,6 +25,7 @@
           - openssl-devel
           - libffi-devel
           - bzip2-devel
+          - libselinux-python3
         state: present
         
     - name: "CHECK: If we already have python3.8 than skip further tasks"
@@ -55,4 +56,8 @@
           ansible.builtin.shell:
             cmd: make altinstall
             chdir: /opt/Python-3.8.5/
+            
+        - name: "SETUP: python3.8 as python3"
+          shell: "alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.8 60"
+          
       when: "not python_exist['stat']['exists']"
