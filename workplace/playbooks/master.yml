@@ -18,7 +18,7 @@
           - wget
         state: present
         
-    - name: "YUM: install required soft epel-release"
+    - name: "YUM: install required soft from epel-release"
       yum: 
         name:
           - ansible
@@ -27,24 +27,32 @@
           - bzip2-devel
         state: present
         
-    - name: "WGET: get python3.8"
-      get_url:
-        url: https://www.python.org/ftp/python/3.8.5/Python-3.8.5.tgz
-        dest: /opt/Python-3.8.5.tgz
-        mode: '0644'
-    
-    - name: "UNPACK: extract files from tar"
-      ansible.builtin.unarchive:
-        src: /opt/Python-3.8.5.tgz
-        dest: /opt
-        remote_src: yes
-    
-    - name: "INSTALL: configure python3.8"
-      ansible.builtin.shell:
-        cmd: ./configure --enable-optimizations
-        chdir: /opt/Python-3.8.5/
-        
-    - name: "INSTALL: make install python3.8"
-      ansible.builtin.shell:
-        cmd: make altinstall
-        chdir: /opt/Python-3.8.5/
+    - name: "CHECK: If we already have python3.8 than skip further tasks"
+      ansible.builtin.stat:
+        path: /usr/local/bin/python3.8
+      register: python_exist
+
+    - name: "INSTALL: python3.8"
+      block:
+        - name: "WGET: get python3.8"
+          get_url:
+            url: https://www.python.org/ftp/python/3.8.5/Python-3.8.5.tgz
+            dest: /opt/Python-3.8.5.tgz
+            mode: '0644'
+
+        - name: "UNPACK: extract files from tar"
+          ansible.builtin.unarchive:
+            src: /opt/Python-3.8.5.tgz
+            dest: /opt
+            remote_src: yes
+
+        - name: "INSTALL: configure python3.8"
+          ansible.builtin.shell:
+            cmd: ./configure --enable-optimizations
+            chdir: /opt/Python-3.8.5/
+
+        - name: "INSTALL: make install python3.8"
+          ansible.builtin.shell:
+            cmd: make altinstall
+            chdir: /opt/Python-3.8.5/
+      when: "not python_exist['stat']['exists']"
