@@ -1,6 +1,6 @@
 ---
 
-- name: Graphene_install
+- name: graphene_install
   connection: paramiko
   become: true
   hosts: all

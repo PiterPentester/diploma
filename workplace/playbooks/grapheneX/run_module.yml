@@ -1,0 +1,21 @@
+---
+
+- name: run_modules
+  connection: paramiko
+  become: true
+  hosts: all
+  tasks:
+        
+    - name: "hardenning centos7 (module by module)"
+      shell: "python3 -m graphenex run centos7/{{ item }}"
+      register: mod_result
+      with_items:
+        - Disable_Blank_Or_Null_Passwords1
+        - Disable_Blank_Or_Null_Passwords2
+        - Remove_Telnet-server
+        - Enable_GPGCHECK
+        - Disable_Account_Identifiers_With_Expired_Passwords
+    
+    - name: "print output"
+      ansible.builtin.debug:
+        msg: "{{ mod_result }}"
