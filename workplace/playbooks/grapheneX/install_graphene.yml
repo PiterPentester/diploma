@@ -1,5 +1,4 @@
 ---
-
 - name: graphene_install
   connection: paramiko
   become: true
@@ -15,6 +14,7 @@
           - flask
           - flask-socketio
           - psutil
+          - selinux
         executable: /usr/local/bin/pip3.8
         
     - name: "Check if graphenex does not exist"
@@ -26,6 +26,6 @@
       block:
         - name: "copy grapheheX to python3 libs"
           ansible.builtin.copy:
-            src: /home/vagrant/sync/graphenex/
+            src: /vagrant/graphenex/
             dest: /usr/local/lib/python3.8/site-packages/graphenex/
       when: "not graphenex_exist['stat']['exists']"

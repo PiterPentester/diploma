@@ -1,12 +1,10 @@
 ---
-
 - name: Worker
   connection: paramiko
   gather_facts: true
   become: true
   hosts: all
   tasks:
-    ## TBD
     - name: "YUM: install required soft"
       yum:
         name:
@@ -64,5 +62,10 @@
     - name: "CONFIG: allow access via ssh password"
       ansible.builtin.lineinfile:
         path: /etc/ssh/sshd_config
-        regexp: '^PasswordAuthentication'
+        regexp: '^#PasswordAuthentication'
         line: 'PasswordAuthentication yes'
+        
+    - name: "Restart SSH"
+      service:
+        name: sshd
+        state: restarted

@@ -1,0 +1,15 @@
+---
+
+- name: run_modules
+  connection: paramiko
+  become: true
+  hosts: all
+  tasks:
+        
+    - name: "hardenning centos7 (via preset)"
+      shell: "python3 -m graphenex run CentOS7_Hardening"
+      register: preset_result
+    
+    - name: "print output"
+      ansible.builtin.debug:
+        msg: "{{ preset_result }}"
