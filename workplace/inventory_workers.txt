@@ -8,3 +8,4 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 ansible_ssh_user=vagrant
 ansible_ssh_pass=vagrant
 ansible_become_pass=vagrant
+host_key_checking=false

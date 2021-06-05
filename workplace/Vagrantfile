@@ -8,7 +8,8 @@
 
 
 Vagrant.configure("2") do |config|
-  config.vm.synced_folder ".", "/home/vagrant/sync"
+  #config.vm.synced_folder ".", "/home/vagrant/sync"
+  config.vbguest.auto_update = false
   # Init & bootstrap MASTER for cluster
   config.vm.define :master do |master|
     master.vm.provider :virtualbox do |v|
@@ -18,7 +19,6 @@ Vagrant.configure("2") do |config|
     master.vm.box = "centos/7"
     master.vm.hostname = "master"
     master.vm.network :private_network, ip: "10.0.0.10"
-    #master.vm.provision :shell, path: "bootstrap-master.sh"
     master.vm.provision "ansible" do |ansible|
       ansible.playbook = "./playbooks/master.yml"
     end
@@ -34,7 +34,6 @@ Vagrant.configure("2") do |config|
       worker.vm.box = "centos/7"
       worker.vm.hostname = name
       worker.vm.network :private_network, ip: "10.0.0.#{i + 11}"
-      #worker.vm.provision :shell, path: "bootstrap-workers.sh"
       worker.vm.provision "ansible" do |ansible|
         ansible.playbook = "./playbooks/worker.yml"
       end
