@@ -1,1 +1,3 @@
-Documentation foldery
+# Documentation foldery
+## Contains:
+### my diploma text
